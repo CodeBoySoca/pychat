@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from routes.chat import chat_router
 from routes.login import login_router
+from socketmanager import manager
 
 import hypercorn
 

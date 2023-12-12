@@ -1,1 +1,49 @@
-<h1>Chat</h1>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PyChat</title>
+        <link rel="stylesheet" href="https://use.typekit.net/bsk3okz.css">
+        <link rel="stylesheet" href="{{ url_for('static', path='css/main.css')}}">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </head>
+    <body>
+       <div id="container"> 
+         
+
+        <h3>chat</h3>
+        <form action="" onsubmit="sendMessage(event)">
+           <input type="text" id="sendText">
+           <input type="submit" name="send">
+        </form>
+        <ul id="messages"></ul>
+
+
+       </div> 
+
+       <script>
+          var ws = new WebSocket(`ws://localhost:8000/chatroom`)
+
+          ws.onmessage = function(event) {
+            var messages = document.getElementById('messages')
+            var message = document.createElement('li')
+            var content = document.createTextNode(event.data)
+            message.appendChild(content)
+            messages.appendChild(message)
+        };
+
+
+        function sendMessage(event) {
+            var input = document.getElementById("sendText")
+            ws.send(input.value)
+            input.value = ''
+            event.preventDefault()
+        }
+
+
+
+       </script>
+
+
+    </body>
+</html>
